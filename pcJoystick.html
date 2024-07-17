@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        html,
+        body {
+            height: 100vh;
+            width: 100vw;
+            background: #c4fefe;
+        }
+
+        #joystick_container {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            position: absolute;
+            top: calc(50vh - 75px);
+            left: calc(50vw - 75px);
+            background: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #joystick {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(200, 200, 200, 0.5);
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="direction" style="font-size: 50px;"><span style="color: red">Computer: </span>move the joystick</h1>
+    <p style="font-size: 35px;">if you want to download this joystick, simply copy the whole html code and process it</p>
+    <a style="font-size: 25px;" href="index.html">head back to menu</a>
+    <div id="joystick_container">
+        <div id="joystick"></div>
+    </div>
+</body>
+<script>
+    const js = document.getElementById('joystick');
+    const jsc = document.getElementById('joystick_container');
+    const d = document.getElementById('direction');
+    var i = false;
+    var x, y;
+
+    function f0(e) {
+        [x, y] = [e.clientX, e.clientY];
+        i = true;
+    }
+
+    function f1() {
+        [js.style.left, js.style.top] = [null, null];
+        i = false;
+        d.innerHTML = '<span style="color: red">Computer: </span>move the joystick';
+    }
+
+    function f2(e) {
+        if (i === true) {
+            let diffX = e.clientX - x;
+            let diffY = e.clientY - y;
+            let realX = Math.min(Math.max(js.offsetLeft + diffX, -25), 75);
+            let realY = Math.min(Math.max(js.offsetTop + diffY, -25), 75); // 25 -> 75 - 50 (container - joystick) width 
+            [js.style.left, js.style.top] = [`${realX}px`, `${realY}px`];
+            [x, y] = [e.clientX, e.clientY];
+            d.innerHTML = directions();
+        }
+    }
+
+    js.addEventListener('mousedown', f0);
+    document.addEventListener('mouseup', f1);
+    document.addEventListener('mousemove', f2);
+
+    function directions() {
+        let j = jsc.getBoundingClientRect();
+        let jj = js.getBoundingClientRect();
+        let xd = jj.left + 50 === j.left + 75 ? '/' : jj.left + 50 > j.left + 75 ? 'right' : 'left';
+        let yd = jj.top + 50 === j.top + 75 ? '/' : jj.top + 50 > j.top + 75 ? 'backward' : 'forward';
+        return `Horizontal: ${xd}<br>Vertical: ${yd}`;
+    }
+</script>
+</html>
