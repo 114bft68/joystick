@@ -68,7 +68,7 @@
             let diffX = e.clientX - x;
             let diffY = e.clientY - y;
             let realX = Math.min(Math.max(js.offsetLeft + diffX, -25), 75);
-            let realY = Math.min(Math.max(js.offsetTop + diffY, -25), 75); // 25 -> 75 - 50 (container - joystick) width 
+            let realY = Math.min(Math.max(js.offsetTop + diffY, -(jsc.clientWidth / 2 - js.clientWidth / 2)), jsc.clientWidth / 2);
             [js.style.left, js.style.top] = [`${realX}px`, `${realY}px`];
             [x, y] = [e.clientX, e.clientY];
             d.innerHTML = directions();
