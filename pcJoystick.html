@@ -44,47 +44,47 @@
     <div id="joystick_container">
         <div id="joystick"></div>
     </div>
-</body>
-<script>
-    const js = document.getElementById('joystick');
-    const jsc = document.getElementById('joystick_container');
-    const d = document.getElementById('direction');
-    var i = false;
-    var x, y;
-
-    function f0(e) {
-        [x, y] = [e.clientX, e.clientY];
-        i = true;
-    }
-
-    function f1() {
-        [js.style.left, js.style.top] = [null, null];
-        i = false;
-        d.innerHTML = '<span style="color: red">Computer: </span>move the joystick';
-    }
-
-    function f2(e) {
-        if (i === true) {
-            let diffX = e.clientX - x;
-            let diffY = e.clientY - y;
-            let realX = Math.min(Math.max(js.offsetLeft + diffX, -25), 75);
-            let realY = Math.min(Math.max(js.offsetTop + diffY, -(jsc.clientWidth / 2 - js.clientWidth / 2)), jsc.clientWidth / 2);
-            [js.style.left, js.style.top] = [`${realX}px`, `${realY}px`];
+    <script>
+        const js = document.getElementById('joystick');
+        const jsc = document.getElementById('joystick_container');
+        const d = document.getElementById('direction');
+        var i = false;
+        var x, y;
+    
+        function f0(e) {
             [x, y] = [e.clientX, e.clientY];
-            d.innerHTML = directions();
+            i = true;
         }
-    }
-
-    js.addEventListener('mousedown', f0);
-    document.addEventListener('mouseup', f1);
-    document.addEventListener('mousemove', f2);
-
-    function directions() {
-        let j = jsc.getBoundingClientRect();
-        let jj = js.getBoundingClientRect();
-        let xd = jj.left + 50 === j.left + 75 ? '/' : jj.left + 50 > j.left + 75 ? 'right' : 'left';
-        let yd = jj.top + 50 === j.top + 75 ? '/' : jj.top + 50 > j.top + 75 ? 'backward' : 'forward';
-        return `Horizontal: ${xd}<br>Vertical: ${yd}`;
-    }
-</script>
+    
+        function f1() {
+            [js.style.left, js.style.top] = [null, null];
+            i = false;
+            d.innerHTML = '<span style="color: red">Computer: </span>move the joystick';
+        }
+    
+        function f2(e) {
+            if (i === true) {
+                let diffX = e.clientX - x;
+                let diffY = e.clientY - y;
+                let realX = Math.min(Math.max(js.offsetLeft + diffX, -25), 75);
+                let realY = Math.min(Math.max(js.offsetTop + diffY, -(jsc.clientWidth / 2 - js.clientWidth / 2)), jsc.clientWidth / 2);
+                [js.style.left, js.style.top] = [`${realX}px`, `${realY}px`];
+                [x, y] = [e.clientX, e.clientY];
+                d.innerHTML = directions();
+            }
+        }
+    
+        js.addEventListener('mousedown', f0);
+        document.addEventListener('mouseup', f1);
+        document.addEventListener('mousemove', f2);
+    
+        function directions() {
+            let j = jsc.getBoundingClientRect();
+            let jj = js.getBoundingClientRect();
+            let xd = jj.left + 50 === j.left + 75 ? '/' : jj.left + 50 > j.left + 75 ? 'right' : 'left';
+            let yd = jj.top + 50 === j.top + 75 ? '/' : jj.top + 50 > j.top + 75 ? 'backward' : 'forward';
+            return `Horizontal: ${xd}<br>Vertical: ${yd}`;
+        }
+    </script>
+</body>
 </html>
